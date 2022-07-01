@@ -81,8 +81,8 @@ class AccountController {
                     number: account_number,
                     agency: this.agency,
                     email,
-                    password_hash: this.utils.hashPassword(password),
-                    transaction_pass_hash: this.utils.hashPassword(transaction_pass),
+                    password_hash: await this.utils.hashPassword(password),
+                    transaction_pass_hash: await this.utils.hashPassword(transaction_pass),
                     owner: { name, surname, birth_date, phone }
                 }
 
@@ -102,7 +102,43 @@ class AccountController {
             } 
 
         } catch (error) {
-            console.log(error)
+            this.logger('\n> [ERROR] internal server error')
+            response = this.responser(500, 'Internal server error, please contact the administrator', false, 'write')
+        }
+
+        res.status(response.code).json(response)
+    }
+
+    login = async (req, res) => {
+        let response = {}
+        try {
+            const isBodyFull = this.utils.checkBodyRequest(AccountsStructure, req.body)
+
+            if(isBodyFull) {
+                const { email, password } = req.body
+
+                const { password_hash } = await this.model.findOne({ email: email })
+
+                if(password_hash) {
+                    const isAuthenticated = await this.utils.compareHashPassword(password, password_hash)
+
+                    if(isAuthenticated) {
+                        this.logger('\n> [SUCCESS] Logged')
+                        response = this.responser(200, 'Authenticated', true, 'write')
+                    } else {
+                        this.logger('\n> [Error] Bad pass')
+                        response = this.responser(401, 'Unauthorized', false, 'write')
+                    } 
+
+                } else {
+                    response = this.responser(401, 'Unauthorized', false, 'write')
+                    this.logger('\n> [ERROR] Not found')
+                } 
+            } else {
+                this.logger('\n> [ERROR] missing required datas')
+                response = this.responser(200, 'Missing required data, please check and try again', false, 'write')
+            }
+        } catch (error) {
             this.logger('\n> [ERROR] internal server error')
             response = this.responser(500, 'Internal server error, please contact the administrator', false, 'write')
         }

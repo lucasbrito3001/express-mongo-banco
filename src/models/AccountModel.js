@@ -7,7 +7,7 @@ const AccountSchema = new Schema({
     agency: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password_hash: { type: String, required: true, select: false },
-    transaction_pass_hash: { type: Number, required: true, select: false },
+    transaction_pass_hash: { type: String, required: true, select: false },
     owner: { type: {
         name: { type: String, required: true },
         surname: { type: String, required: true },

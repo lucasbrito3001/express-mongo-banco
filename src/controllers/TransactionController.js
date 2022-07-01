@@ -41,7 +41,6 @@ class TransactionController {
             
             const transactions = await this.model.find({ $or: [{ source_account: accountNumber }, { destination_account: accountNumber }] })
 
-            console.log(transactions, transactions.length)
             if(transactions.length > 0) {
                 this.logger('\n> [SUCCESS] Found')
                 response = this.responser(200, 'ok', true, 'read', transactions)
@@ -50,7 +49,6 @@ class TransactionController {
                 response = this.responser(200, 'No transactions found with this ID', false, 'write')
             }
         } catch (error) {
-            console.log(error)
             this.logger('\n> [ERROR] Internal server error')
             response = this.responser(500, 'Internal server error, please contact the administrator', false, 'write')
         }
@@ -119,7 +117,6 @@ class TransactionController {
                 response = this.responser(200, 'Missing required data', false, 'write')
             }
         } catch (error) {
-            console.log(error)
             this.logger('\n> [ERROR] Internal server error')
             response = this.responser(500, 'Internal server error, please contact the administrator', false, 'write')
         }
