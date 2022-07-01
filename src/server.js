@@ -4,9 +4,10 @@ const app = require('./app')
 const mongoose = require('mongoose')
 const dbConfig = require('./database/config')
 
-const port = process.env.PORT || 4100
 
 async function startServerAndConnectDatabase() {
+    const port = process.env.PORT || 4100
+    
     console.log('> Starting the server...')
     await app.listen(port, () => console.log(`> The server is running on port: ${port}\n`))
     

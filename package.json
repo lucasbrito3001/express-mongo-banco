@@ -4,7 +4,7 @@
   "description": "Estudando express, mongodb e jest",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "dev": "nodemon ./src/server.js",
     "prod": "node ./src/server.js"
   },
@@ -23,12 +23,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "jest": "^28.1.1",
     "mongodb": "^4.7.0",
     "mongoose": "^6.4.0",
     "supertest": "^6.2.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.18"
+    "jest": "^28.1.1",
+    "nodemon": "^2.0.18",
+    "sinon": "^14.0.0"
   }
 }

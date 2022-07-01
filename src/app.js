@@ -1,9 +1,26 @@
 const express = require('express')
 const cors = require('cors')
+const AccountsRoutes = require("./routes/Account")
+const TransactionsRoutes = require("./routes/Transaction")
+class App {
+    constructor() {
+        this.express = express()
 
-const app = express();
+        this.middlewares()
+        this.routes()
+    }
 
-app.use(cors());
-app.use(express.json());
+    middlewares() {
+        this.express.use(express.json())
+        this.express.use(cors())
+    }
 
-module.exports = app
+    routes() {
+        this.express.use(
+            '/api/v1',
+            [AccountsRoutes, TransactionsRoutes]
+        )
+    }
+}
+
+module.exports = new App().express
