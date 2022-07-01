@@ -1,6 +1,12 @@
+const bcrypt = require('bcrypt')
+
 class Utils {
-    hashPassword(password) {
-        return password
+    async hashPassword(password, salt = 10) {
+        return await bcrypt.hash(password, salt)
+    }
+
+    async compareHashPassword(password, hashedPassword) {
+        return await bcrypt.compare(password, hashedPassword)
     }
 
     async generateAccountNumber(model) {
